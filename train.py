@@ -1,7 +1,6 @@
 import argparse
 from dataset import Dataset
 from model import MFModel
-from evaluate import evaluate
 
 import numpy as np
 
@@ -39,7 +38,7 @@ def main():
                   args.embedding_dim-1, args.regularization, args.stddev)
 
   # Train and evaluate model
-  hr, ndcg = evaluate(model, test_ratings, test_negatives, K=10)
+  hr, ndcg = model.evaluate(test_ratings, test_negatives, K=10)
   print('Epoch %4d:\t HR=%.4f, NDCG=%.4f\t'
         % (0, hr, ndcg))
   for epoch in range(args.epochs):
@@ -48,7 +47,7 @@ def main():
                   num_negatives=args.negatives)
 
     # Evaluation
-    hr, ndcg = evaluate(model, test_ratings, test_negatives, K=10)
+    hr, ndcg = model.evaluate(test_ratings, test_negatives, K=10)
     print('Epoch %4d:\t HR=%.4f, NDCG=%.4f\t'
           % (epoch+1, hr, ndcg))
 
